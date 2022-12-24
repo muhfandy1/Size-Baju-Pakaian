@@ -1,0 +1,170 @@
+INCLUDE 'emu8086.inc'
+.model small
+.stack 100h
+.data
+
+
+msg1 db 13,10,'Menampilkan Size Baju$'
+msg2 db 13,10,'1. Untuk Pakaian Pria Dewasa$' 
+msg3 db 13,10,'a XL$'    
+msg4 db 13,10,'b L$'
+msg5 db 13,10,'c M$'
+msg6 db 13,10,'2. Untuk Pakaian Wanita Dewasa$'
+msg7 db 13,10,'a XL$'    
+msg8 db 13,10,'b L$'
+msg9 db 13,10,'c M$'      
+msg10 db 13,10,'d S$'    
+msg11 db 13,10,'3. Untuk Pakaian Anak$'
+msg12 db 13,10,'a L$'    
+msg13 db 13,10,'b M$'
+msg14 db 13,10,'c S$'
+msg15 db 13,10,'4. Menampilkan Size Jaket$'  
+msg16 db 13,10,'1. Size Unisex$' 
+msg17 db 13,10,'2. Size Anak $'
+msg18 db 13,10,'<<Masukkan Pilihan>>$'
+
+
+.code
+
+DISPLAY MACRO PESAN
+MOV AH,09H
+LEA DX,PESAN
+INT 21H
+ENDM
+
+DEFINE_PRINT_NUM
+DEFINE_PRINT_NUM_UNS
+
+START:
+MOV AX,00H
+MOV CX,1388H
+MOV SI,00H
+MOV AX,DATA
+MOV DS,AX
+
+DISPLAY msg1
+DISPLAY msg2
+DISPLAY msg3
+DISPLAY msg4
+DISPLAY msg5
+DISPLAY msg6
+DISPLAY msg7
+DISPLAY msg8
+DISPLAY msg9
+DISPLAY msg10
+DISPLAY msg11
+DISPLAY msg12
+DISPLAY msg13
+DISPLAY msg14    
+DISPLAY msg15
+DISPLAY msg16
+DISPLAY msg17
+DISPLAY msg18
+
+
+mov ah,01h
+int 21h
+
+input:
+cmp al,'1'
+je SIZE
+
+CMP AL,'2'
+JE SIZE2  
+
+CMP AL,'3'
+JE SIZE3     
+
+CMP AL,'4'
+JE SIZE4
+
+
+HASIL:
+DISPLAY msg2
+DISPLAY msg6
+DISPLAY msg11
+mov ax,cx
+call print_num
+Display msg18
+
+
+mov ah,01h
+int 21h
+cmp al,'1'
+je ulang
+
+cmp al,'2'
+je keluar 
+
+jmp start
+
+SIZE:
+MOV AH,00H
+MOV AL,03H
+INT 10H
+DISPLAY msg3
+DISPLAY msg4
+DISPLAY msg5
+MOV AH,01H 
+INT 21H
+
+SIZE2:
+MOV AH,00H
+MOV AL,03H
+INT 10H
+DISPLAY msg7
+DISPLAY msg8
+DISPLAY msg9
+DISPLAY msg10  
+MOV AH,01H 
+INT 21H
+
+SIZE3:
+MOV AH,00H
+MOV AL,03H
+INT 10H
+DISPLAY msg12
+DISPLAY msg13
+DISPLAY msg14 
+MOV AH,01H 
+INT 21H
+
+SIZE4:
+MOV AH,00H
+MOV AL,03H
+INT 10H
+DISPLAY msg16
+DISPLAY msg17 
+MOV AH,01H 
+INT 21H
+
+
+
+ULANG:
+MOV AH,00H
+MOV AL,03H
+INT 10H
+DISPLAY msg1
+DISPLAY msg2
+DISPLAY msg3
+DISPLAY msg4
+DISPLAY msg5
+DISPLAY msg6
+DISPLAY msg7
+DISPLAY msg8
+DISPLAY msg9
+DISPLAY msg10
+DISPLAY msg11
+DISPLAY msg12
+DISPLAY msg13
+DISPLAY msg14    
+DISPLAY msg15
+DISPLAY msg16
+DISPLAY msg17
+DISPLAY msg18
+MOV AH,01H
+INT 21H
+JMP INPUT 
+
+KELUAR:
+END START
